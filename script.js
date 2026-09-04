@@ -1062,20 +1062,6 @@ function initEventDelegation(){
         closeSlotModal();
         break;
 
-      default: break;
-  if (pendingSlotIdeaId) {
-    promoteExplicit(pendingSlotIdeaId, 'primary');
-  }
-  closeSlotModal();
-  break;
-
-case 'slot-replace-secondary':
-  if (pendingSlotIdeaId) {
-    promoteExplicit(pendingSlotIdeaId, 'secondary');
-  }
-  closeSlotModal();
-  break;
-
 case 'slot-keep-backup':
   if (pendingSlotIdeaId) {
     moveToBackupExplicit(pendingSlotIdeaId);
