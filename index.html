@@ -31,18 +31,18 @@
       <span class="brand-sub">idea-catching, for how your mind actually moves</span>
     </div>
 
-    <button class="capture-cta" id="sidebarCapture">
+     class="capture-cta" id="sidebarCapture">
       <svg width="16" height="16" viewBox="0 0 20 20"><path d="M10 3v14M3 10h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
       Capture an idea
       <kbd>N</kbd>
     </button>
 
     <ul class="nav-list" id="navList">
-      <li><button class="nav-item" data-view="dashboard" aria-current="page">
+      <li> class="nav-item" data-view="dashboard" aria-current="page">
         <svg class="nav-icon" viewBox="0 0 20 20"><rect x="2.5" y="2.5" width="6.5" height="6.5" rx="1.3"/><rect x="11" y="2.5" width="6.5" height="9.5" rx="1.3"/><rect x="2.5" y="11" width="6.5" height="6.5" rx="1.3"/><rect x="11" y="14" width="6.5" height="3.5" rx="1.3"/></svg>
         Dashboard
       </button></li>
-      <li><button class="nav-item" data-view="focus">
+      <li> class="nav-item" data-view="focus">
         <svg class="nav-icon" viewBox="0 0 20 20"><circle cx="10" cy="10" r="7"/><circle cx="10" cy="10" r="2.4" fill="currentColor" stroke="none"/></svg>
         Focus
       </button></li>
@@ -424,10 +424,25 @@
     <h2 id="slotModalTitle">You already have a primary and secondary idea</h2>
     <p id="slotModalBody">Would you like to replace one of them, or keep this as a backup idea for now?</p>
     <div class="slot-modal-actions">
-      <button class="btn btn-secondary" id="slotReplacePrimary">Replace primary</button>
-      <button class="btn btn-secondary" id="slotReplaceSecondary">Replace secondary</button>
-      <button class="btn btn-tertiary" id="slotKeepBackup">Keep as backup</button>
-      <button class="btn btn-tertiary" id="slotCancel">Cancel</button>
+      <button type="button" class="btn btn-secondary"
+        data-action="slot-replace-primary">
+  Replace primary
+</button>
+
+<button type="button" class="btn btn-secondary"
+        data-action="slot-replace-secondary">
+  Replace secondary
+</button>
+
+<button type="button" class="btn btn-tertiary"
+        data-action="slot-keep-backup">
+  Keep as backup
+</button>
+
+<button type="button" class="btn btn-tertiary"
+        data-action="slot-cancel">
+  Cancel
+</button>
     </div>
   </div>
 </div>
