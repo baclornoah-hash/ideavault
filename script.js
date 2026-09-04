@@ -52,7 +52,7 @@ let recognizing = false;
    ============================================================ */
 function loadIdeas(){
   try{
-    const raw = localStorage.getItem(STORAGE_KEY);
+    const raw = .getItem(STORAGE_KEY);
     if(!raw) return [];
     const parsed = JSON.parse(raw);
     return Array.isArray(parsed) ? parsed : [];
@@ -987,7 +987,7 @@ function initEventDelegation(){
     switch(action){
       case 'open-detail':
         // a click inside a row's kebab menu (e.g. the summary toggle) bubbles up to
-        // the row's own open-detail handler unless we catch it here.
+        // the row's own open-detail handler unless we catch it here.r
         if(e.target.closest('.row-menu')) return;
         openDetail(id);
         break;
@@ -1037,6 +1037,31 @@ function initEventDelegation(){
       case 'random-again': showRandomIdea(); break;
       case 'energy-again': handleEnergyPick(actionEl.dataset.energy); break;
       default: break;
+
+          case 'slot-replace-primary':
+  if (pendingSlotIdeaId) {
+    promoteExplicit(pendingSlotIdeaId, 'primary');
+  }
+  closeSlotModal();
+  break;
+
+case 'slot-replace-secondary':
+  if (pendingSlotIdeaId) {
+    promoteExplicit(pendingSlotIdeaId, 'secondary');
+  }
+  closeSlotModal();
+  break;
+
+case 'slot-keep-backup':
+  if (pendingSlotIdeaId) {
+    moveToBackupExplicit(pendingSlotIdeaId);
+  }
+  closeSlotModal();
+  break;
+
+case 'slot-cancel':
+  closeSlotModal();
+  break;
     }
   });
 
@@ -1094,20 +1119,9 @@ function init(){
   });
 
   // slot modal
-  $('#slotReplacePrimary').addEventListener('click', ()=>{
-    if(pendingSlotIdeaId) promoteExplicit(pendingSlotIdeaId, 'primary');
-    closeSlotModal();
-  });
-  $('#slotReplaceSecondary').addEventListener('click', ()=>{
-    if(pendingSlotIdeaId) promoteExplicit(pendingSlotIdeaId, 'secondary');
-    closeSlotModal();
-  });
-  $('#slotKeepBackup').addEventListener('click', ()=>{
-    if(pendingSlotIdeaId) moveToBackupExplicit(pendingSlotIdeaId);
-    closeSlotModal();
-  });
-  $('#slotCancel').addEventListener('click', closeSlotModal);
-  slotModalOverlay.addEventListener('click', (e)=>{ if(e.target === slotModalOverlay) closeSlotModal(); });
+slotModalOverlay.addEventListener('click', (e)=>{
+  if(e.target === slotModalOverlay) closeSlotModal();
+});
 
   // all-ideas filters
   ['#allSearch','#filterType','#filterStatus','#filterCollection','#filterFocusRole','#sortIdeas'].forEach(sel=>{
