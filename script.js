@@ -52,7 +52,7 @@ let recognizing = false;
    ============================================================ */
 function loadIdeas(){
   try{
-    const raw = .getItem(STORAGE_KEY);
+    const raw = localStorage.getItem(STORAGE_KEY);
     if(!raw) return [];
     const parsed = JSON.parse(raw);
     return Array.isArray(parsed) ? parsed : [];
