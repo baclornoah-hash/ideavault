@@ -1034,11 +1034,35 @@ function initEventDelegation(){
         break;
       }
       case 'review-again': startReview(); break;
-      case 'random-again': showRandomIdea(); break;
+            case 'random-again': showRandomIdea(); break;
       case 'energy-again': handleEnergyPick(actionEl.dataset.energy); break;
-      default: break;
 
-          case 'slot-replace-primary':
+      case 'slot-replace-primary':
+        if (pendingSlotIdeaId) {
+          promoteExplicit(pendingSlotIdeaId, 'primary');
+        }
+        closeSlotModal();
+        break;
+
+      case 'slot-replace-secondary':
+        if (pendingSlotIdeaId) {
+          promoteExplicit(pendingSlotIdeaId, 'secondary');
+        }
+        closeSlotModal();
+        break;
+
+      case 'slot-keep-backup':
+        if (pendingSlotIdeaId) {
+          moveToBackupExplicit(pendingSlotIdeaId);
+        }
+        closeSlotModal();
+        break;
+
+      case 'slot-cancel':
+        closeSlotModal();
+        break;
+
+      default: break;
   if (pendingSlotIdeaId) {
     promoteExplicit(pendingSlotIdeaId, 'primary');
   }
