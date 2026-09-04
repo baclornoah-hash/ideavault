@@ -1,0 +1,1265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="An ADHD-friendly personal idea capture and management system.">
+  <title>Idea Vault</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- =========================================
+       APP HEADER
+  ========================================== -->
+
+  <header class="app-header">
+    <div class="header-inner">
+
+      <a href="#" class="app-logo" aria-label="Idea Vault home">
+        <span class="logo-icon" aria-hidden="true">✦</span>
+        <span class="logo-text">Idea Vault</span>
+      </a>
+
+      <div class="header-actions">
+
+        <button
+          type="button"
+          class="icon-button"
+          id="search-toggle"
+          aria-label="Open search"
+          title="Search ideas"
+        >
+          🔍
+        </button>
+
+        <button
+          type="button"
+          class="button button-primary"
+          id="quick-capture-header"
+        >
+          <span aria-hidden="true">+</span>
+          Capture Idea
+        </button>
+
+      </div>
+
+    </div>
+  </header>
+
+
+  <!-- =========================================
+       MAIN APPLICATION
+  ========================================== -->
+
+  <main class="app-main">
+
+    <!-- =======================================
+         QUICK CAPTURE
+    ======================================== -->
+
+    <section class="quick-capture-section" aria-labelledby="capture-heading">
+
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Capture without pressure</p>
+          <h1 id="capture-heading">What idea just appeared?</h1>
+          <p class="section-description">
+            Save it now. Organize it later.
+          </p>
+        </div>
+      </div>
+
+      <form id="quick-capture-form" class="quick-capture-form">
+
+        <div class="capture-input-wrapper">
+
+          <label for="quick-idea-title" class="sr-only">
+            Idea title or thought
+          </label>
+
+          <input
+            type="text"
+            id="quick-idea-title"
+            name="title"
+            placeholder="Capture a new idea..."
+            autocomplete="off"
+            required
+          >
+
+          <button
+            type="button"
+            class="capture-voice-button"
+            id="voice-capture-button"
+            aria-label="Capture idea using voice"
+            title="Voice capture"
+          >
+            🎙️
+          </button>
+
+        </div>
+
+        <div class="capture-actions">
+
+          <label for="quick-idea-details" class="sr-only">
+            Optional idea details
+          </label>
+
+          <textarea
+            id="quick-idea-details"
+            name="details"
+            placeholder="Optional: add a few details..."
+            rows="2"
+          ></textarea>
+
+          <div class="capture-bottom-row">
+
+            <p class="capture-hint">
+              Press <kbd>Enter</kbd> to save quickly.
+            </p>
+
+            <button
+              type="submit"
+              class="button button-primary"
+              id="save-idea-button"
+            >
+              Save Idea
+            </button>
+
+          </div>
+
+        </div>
+
+      </form>
+
+      <div
+        id="capture-feedback"
+        class="capture-feedback"
+        role="status"
+        aria-live="polite"
+        hidden
+      ></div>
+
+    </section>
+
+
+    <!-- =======================================
+         CURRENT FOCUS
+    ======================================== -->
+
+    <section class="focus-section" aria-labelledby="focus-heading">
+
+      <div class="section-heading section-heading-with-action">
+
+        <div>
+          <p class="eyebrow">Your attention, simplified</p>
+          <h2 id="focus-heading">Current Focus</h2>
+          <p class="section-description">
+            One primary idea. One secondary idea. Everything else can wait.
+          </p>
+        </div>
+
+        <button
+          type="button"
+          class="button button-secondary"
+          id="choose-focus-button"
+        >
+          Help me choose
+        </button>
+
+      </div>
+
+
+      <div class="focus-grid">
+
+        <!-- PRIMARY IDEA -->
+
+        <article class="focus-card focus-card-primary" id="primary-focus-card">
+
+          <div class="focus-card-header">
+            <span class="focus-label primary-label">
+              <span aria-hidden="true">★</span>
+              Primary
+            </span>
+
+            <button
+              type="button"
+              class="icon-button focus-menu-button"
+              aria-label="Primary idea options"
+              title="More options"
+              data-focus-menu="primary"
+            >
+              ⋯
+            </button>
+          </div>
+
+          <div class="focus-card-content" id="primary-focus-content">
+
+            <div class="empty-focus-state" id="primary-empty-state">
+              <span class="empty-state-icon" aria-hidden="true">★</span>
+              <h3>No primary idea yet</h3>
+              <p>
+                Choose the one idea you want to give your attention to.
+              </p>
+
+              <button
+                type="button"
+                class="button button-primary"
+                id="choose-primary-button"
+              >
+                Choose Primary
+              </button>
+            </div>
+
+            <div class="focus-idea-content" id="primary-idea-content" hidden>
+
+              <h3 class="focus-idea-title" id="primary-idea-title">
+                Your primary idea
+              </h3>
+
+              <p class="focus-idea-description" id="primary-idea-description">
+                Your main idea will appear here.
+              </p>
+
+              <div class="focus-next-action">
+
+                <span class="next-action-label">
+                  Next action
+                </span>
+
+                <p id="primary-next-action">
+                  No next action set yet.
+                </p>
+
+              </div>
+
+              <div class="focus-card-footer">
+
+                <span class="focus-progress" id="primary-progress">
+                  Just an idea
+                </span>
+
+                <button
+                  type="button"
+                  class="button button-primary"
+                  id="continue-primary-button"
+                >
+                  Continue
+                </button>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </article>
+
+
+        <!-- SECONDARY IDEA -->
+
+        <article class="focus-card focus-card-secondary" id="secondary-focus-card">
+
+          <div class="focus-card-header">
+            <span class="focus-label secondary-label">
+              <span aria-hidden="true">○</span>
+              Secondary
+            </span>
+
+            <button
+              type="button"
+              class="icon-button focus-menu-button"
+              aria-label="Secondary idea options"
+              title="More options"
+              data-focus-menu="secondary"
+            >
+              ⋯
+            </button>
+          </div>
+
+          <div class="focus-card-content" id="secondary-focus-content">
+
+            <div class="empty-focus-state" id="secondary-empty-state">
+              <span class="empty-state-icon" aria-hidden="true">○</span>
+              <h3>No secondary idea yet</h3>
+              <p>
+                Keep one alternative available without competing with your primary.
+              </p>
+
+              <button
+                type="button"
+                class="button button-secondary"
+                id="choose-secondary-button"
+              >
+                Choose Secondary
+              </button>
+            </div>
+
+            <div class="focus-idea-content" id="secondary-idea-content" hidden>
+
+              <h3 class="focus-idea-title" id="secondary-idea-title">
+                Your secondary idea
+              </h3>
+
+              <p class="focus-idea-description" id="secondary-idea-description">
+                Your secondary idea will appear here.
+              </p>
+
+              <div class="focus-next-action">
+
+                <span class="next-action-label">
+                  Next action
+                </span>
+
+                <p id="secondary-next-action">
+                  No next action set yet.
+                </p>
+
+              </div>
+
+              <div class="focus-card-footer">
+
+                <span class="focus-progress" id="secondary-progress">
+                  Just an idea
+                </span>
+
+                <button
+                  type="button"
+                  class="button button-secondary"
+                  id="continue-secondary-button"
+                >
+                  Continue
+                </button>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </article>
+
+      </div>
+
+    </section>
+
+
+    <!-- =======================================
+         QUICK OVERVIEW
+    ======================================== -->
+
+    <section class="overview-section" aria-label="Idea overview">
+
+      <div class="overview-grid">
+
+        <button
+          type="button"
+          class="overview-card"
+          id="open-inbox-button"
+        >
+          <span class="overview-icon" aria-hidden="true">📥</span>
+          <span class="overview-label">Inbox</span>
+          <strong class="overview-count" id="inbox-count">0</strong>
+          <span class="overview-description">New ideas waiting</span>
+        </button>
+
+        <button
+          type="button"
+          class="overview-card"
+          id="open-backup-button"
+        >
+          <span class="overview-icon" aria-hidden="true">🌱</span>
+          <span class="overview-label">Backup Ideas</span>
+          <strong class="overview-count" id="backup-count">0</strong>
+          <span class="overview-description">Ideas for later</span>
+        </button>
+
+        <button
+          type="button"
+          class="overview-card"
+          id="open-active-button"
+        >
+          <span class="overview-icon" aria-hidden="true">✦</span>
+          <span class="overview-label">Active Ideas</span>
+          <strong class="overview-count" id="active-count">0</strong>
+          <span class="overview-description">Ideas being developed</span>
+        </button>
+
+        <button
+          type="button"
+          class="overview-card"
+          id="open-completed-button"
+        >
+          <span class="overview-icon" aria-hidden="true">✓</span>
+          <span class="overview-label">Completed</span>
+          <strong class="overview-count" id="completed-count">0</strong>
+          <span class="overview-description">Ideas brought to life</span>
+        </button>
+
+      </div>
+
+    </section>
+
+
+    <!-- =======================================
+         RECENT IDEAS
+    ======================================== -->
+
+    <section class="recent-section" aria-labelledby="recent-heading">
+
+      <div class="section-heading section-heading-with-action">
+
+        <div>
+          <p class="eyebrow">Your latest thoughts</p>
+          <h2 id="recent-heading">Recently Captured</h2>
+        </div>
+
+        <button
+          type="button"
+          class="text-button"
+          id="view-all-recent-button"
+        >
+          View all
+          <span aria-hidden="true">→</span>
+        </button>
+
+      </div>
+
+      <div class="idea-list" id="recent-ideas-list">
+
+        <div class="empty-list-state" id="recent-empty-state">
+
+          <span class="empty-state-icon" aria-hidden="true">💡</span>
+
+          <h3>Your ideas will appear here</h3>
+
+          <p>
+            Capture your first idea above. It does not need to be organized yet.
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =======================================
+         BACKUP IDEAS
+    ======================================== -->
+
+    <section class="backup-section" aria-labelledby="backup-heading">
+
+      <div class="section-heading section-heading-with-action">
+
+        <div>
+          <p class="eyebrow">Not now does not mean never</p>
+          <h2 id="backup-heading">Backup Ideas</h2>
+          <p class="section-description">
+            Keep your other ideas safe without making them compete for attention.
+          </p>
+        </div>
+
+        <button
+          type="button"
+          class="text-button"
+          id="view-all-backup-button"
+        >
+          View all
+          <span aria-hidden="true">→</span>
+        </button>
+
+      </div>
+
+      <div class="idea-list idea-list-compact" id="backup-ideas-list">
+
+        <div class="empty-list-state" id="backup-empty-state">
+
+          <span class="empty-state-icon" aria-hidden="true">🌱</span>
+
+          <h3>No backup ideas yet</h3>
+
+          <p>
+            Ideas you are keeping for later will appear here.
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =======================================
+         OPTIONAL REVIEW
+    ======================================== -->
+
+    <section class="review-section" aria-labelledby="review-heading">
+
+      <div class="review-card">
+
+        <div class="review-card-content">
+
+          <span class="review-icon" aria-hidden="true">🔄</span>
+
+          <div>
+            <p class="eyebrow">Gentle review</p>
+            <h2 id="review-heading">Revisit an idea</h2>
+            <p>
+              Look at a few saved ideas and decide what still interests you.
+            </p>
+          </div>
+
+        </div>
+
+        <button
+          type="button"
+          class="button button-secondary"
+          id="start-review-button"
+        >
+          Start Review
+        </button>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- =========================================
+       SEARCH OVERLAY
+  ========================================== -->
+
+  <div
+    class="modal-overlay"
+    id="search-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="search-modal-title"
+    hidden
+  >
+
+    <div class="modal modal-search">
+
+      <div class="modal-header">
+
+        <div>
+          <p class="eyebrow">Find anything</p>
+          <h2 id="search-modal-title">Search your ideas</h2>
+        </div>
+
+        <button
+          type="button"
+          class="icon-button modal-close"
+          data-close-modal="search-modal"
+          aria-label="Close search"
+        >
+          ×
+        </button>
+
+      </div>
+
+      <div class="search-input-wrapper">
+
+        <label for="global-search-input" class="sr-only">
+          Search ideas
+        </label>
+
+        <input
+          type="search"
+          id="global-search-input"
+          placeholder="Search titles, notes, tags..."
+          autocomplete="off"
+        >
+
+      </div>
+
+      <div class="search-filters">
+
+        <label for="search-status-filter">
+          Status
+        </label>
+
+        <select id="search-status-filter">
+          <option value="all">All statuses</option>
+          <option value="inbox">Inbox</option>
+          <option value="active">Active</option>
+          <option value="paused">Paused</option>
+          <option value="completed">Completed</option>
+          <option value="archived">Archived</option>
+        </select>
+
+        <label for="search-type-filter">
+          Type
+        </label>
+
+        <select id="search-type-filter">
+          <option value="all">All types</option>
+          <option value="screenplay">Screenplay</option>
+          <option value="story">Story</option>
+          <option value="character">Character</option>
+          <option value="scene">Scene</option>
+          <option value="website">Website</option>
+          <option value="app">App</option>
+          <option value="business">Business</option>
+          <option value="content">Content</option>
+          <option value="essay">Essay</option>
+          <option value="poetry">Poetry</option>
+          <option value="research">Research</option>
+          <option value="learning">Learning</option>
+          <option value="personal">Personal</option>
+          <option value="random-thought">Random Thought</option>
+          <option value="other">Other</option>
+        </select>
+
+      </div>
+
+      <div class="search-results" id="search-results">
+
+        <div class="empty-list-state">
+          <span class="empty-state-icon" aria-hidden="true">🔍</span>
+          <p>Start typing to search your ideas.</p>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================================
+       IDEA DETAILS MODAL
+  ========================================== -->
+
+  <div
+    class="modal-overlay"
+    id="idea-details-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="idea-details-title"
+    hidden
+  >
+
+    <div class="modal modal-large">
+
+      <div class="modal-header">
+
+        <div>
+          <p class="eyebrow">Idea details</p>
+          <h2 id="idea-details-title">Edit idea</h2>
+        </div>
+
+        <button
+          type="button"
+          class="icon-button modal-close"
+          data-close-modal="idea-details-modal"
+          aria-label="Close idea details"
+        >
+          ×
+        </button>
+
+      </div>
+
+      <form id="idea-details-form">
+
+        <input type="hidden" id="edit-idea-id">
+
+        <div class="form-group">
+
+          <label for="edit-idea-title">
+            Title
+          </label>
+
+          <input
+            type="text"
+            id="edit-idea-title"
+            name="title"
+            required
+          >
+
+        </div>
+
+        <div class="form-group">
+
+          <label for="edit-idea-description">
+            Description
+          </label>
+
+          <textarea
+            id="edit-idea-description"
+            name="description"
+            rows="5"
+            placeholder="What is this idea about?"
+          ></textarea>
+
+        </div>
+
+        <div class="form-row">
+
+          <div class="form-group">
+
+            <label for="edit-idea-type">
+              Type
+            </label>
+
+            <select id="edit-idea-type" name="type">
+              <option value="uncategorized">Uncategorized</option>
+              <option value="screenplay">Screenplay</option>
+              <option value="story">Story</option>
+              <option value="character">Character</option>
+              <option value="scene">Scene</option>
+              <option value="plot">Plot / Concept</option>
+              <option value="worldbuilding">Worldbuilding</option>
+              <option value="website">Website</option>
+              <option value="app">App</option>
+              <option value="business">Business</option>
+              <option value="content">Content</option>
+              <option value="essay">Essay</option>
+              <option value="poetry">Poetry</option>
+              <option value="research">Research</option>
+              <option value="learning">Learning</option>
+              <option value="personal">Personal</option>
+              <option value="random-thought">Random Thought</option>
+              <option value="other">Other</option>
+            </select>
+
+          </div>
+
+          <div class="form-group">
+
+            <label for="edit-idea-status">
+              Status
+            </label>
+
+            <select id="edit-idea-status" name="status">
+              <option value="inbox">Inbox</option>
+              <option value="clarifying">Clarifying</option>
+              <option value="active">Active</option>
+              <option value="paused">Paused</option>
+              <option value="completed">Completed</option>
+              <option value="archived">Archived</option>
+              <option value="rejected">Not for now</option>
+            </select>
+
+          </div>
+
+        </div>
+
+        <div class="form-group">
+
+          <label for="edit-idea-collection">
+            Collection
+          </label>
+
+          <select id="edit-idea-collection" name="collection">
+            <option value="">No collection</option>
+            <option value="screenwriting">Screenwriting</option>
+            <option value="website-projects">Website Projects</option>
+            <option value="business-ideas">Business Ideas</option>
+            <option value="content-ideas">Content Ideas</option>
+            <option value="personal">Personal</option>
+            <option value="learning">Learning</option>
+            <option value="future-projects">Future Projects</option>
+          </select>
+
+        </div>
+
+        <div class="form-group">
+
+          <label for="edit-idea-tags">
+            Tags
+          </label>
+
+          <input
+            type="text"
+            id="edit-idea-tags"
+            name="tags"
+            placeholder="thriller, character, website"
+          >
+
+          <p class="form-help">
+            Separate tags with commas.
+          </p>
+
+        </div>
+
+        <div class="form-group">
+
+          <label for="edit-idea-why">
+            Why does this idea matter?
+          </label>
+
+          <textarea
+            id="edit-idea-why"
+            name="why"
+            rows="3"
+            placeholder="What makes this idea interesting or important to you?"
+          ></textarea>
+
+        </div>
+
+        <div class="form-group">
+
+          <label for="edit-idea-next-action">
+            Next action
+          </label>
+
+          <input
+            type="text"
+            id="edit-idea-next-action"
+            name="nextAction"
+            placeholder="What is the smallest next step?"
+          >
+
+        </div>
+
+        <div class="form-group">
+
+          <label for="edit-idea-progress">
+            Progress
+          </label>
+
+          <select id="edit-idea-progress" name="progress">
+            <option value="just-an-idea">Just an idea</option>
+            <option value="exploring">Exploring</option>
+            <option value="developing">Developing</option>
+            <option value="drafting">Drafting</option>
+            <option value="revising">Revising</option>
+            <option value="nearly-finished">Nearly finished</option>
+            <option value="completed">Completed</option>
+          </select>
+
+        </div>
+
+        <div class="form-group">
+
+          <label for="edit-idea-notes">
+            Notes
+          </label>
+
+          <textarea
+            id="edit-idea-notes"
+            name="notes"
+            rows="6"
+            placeholder="Additional thoughts, research, dialogue, links, or anything else..."
+          ></textarea>
+
+        </div>
+
+        <div class="modal-actions">
+
+          <button
+            type="button"
+            class="button button-danger"
+            id="delete-idea-button"
+          >
+            Delete
+          </button>
+
+          <div class="modal-actions-right">
+
+            <button
+              type="button"
+              class="button button-secondary"
+              data-close-modal="idea-details-modal"
+            >
+              Cancel
+            </button>
+
+            <button
+              type="submit"
+              class="button button-primary"
+            >
+              Save Changes
+            </button>
+
+          </div>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================================
+       BRAIN DUMP MODAL
+  ========================================== -->
+
+  <div
+    class="modal-overlay"
+    id="brain-dump-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="brain-dump-title"
+    hidden
+  >
+
+    <div class="modal modal-large">
+
+      <div class="modal-header">
+
+        <div>
+          <p class="eyebrow">Think freely</p>
+          <h2 id="brain-dump-title">Brain Dump</h2>
+          <p class="section-description">
+            Write everything. Organize it later.
+          </p>
+        </div>
+
+        <button
+          type="button"
+          class="icon-button modal-close"
+          data-close-modal="brain-dump-modal"
+          aria-label="Close brain dump"
+        >
+          ×
+        </button>
+
+      </div>
+
+      <form id="brain-dump-form">
+
+        <div class="form-group">
+
+          <label for="brain-dump-title-input">
+            Give this brain dump a name
+          </label>
+
+          <input
+            type="text"
+            id="brain-dump-title-input"
+            placeholder="Untitled brain dump"
+          >
+
+        </div>
+
+        <div class="form-group">
+
+          <label for="brain-dump-content">
+            Your thoughts
+          </label>
+
+          <textarea
+            id="brain-dump-content"
+            rows="14"
+            placeholder="Write freely. Do not worry about organizing..."
+          ></textarea>
+
+        </div>
+
+        <div class="modal-actions">
+
+          <button
+            type="button"
+            class="button button-secondary"
+            data-close-modal="brain-dump-modal"
+          >
+            Cancel
+          </button>
+
+          <button
+            type="submit"
+            class="button button-primary"
+          >
+            Save Brain Dump
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================================
+       FOCUS SELECTION MODAL
+  ========================================== -->
+
+  <div
+    class="modal-overlay"
+    id="focus-selection-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="focus-selection-title"
+    hidden
+  >
+
+    <div class="modal">
+
+      <div class="modal-header">
+
+        <div>
+          <p class="eyebrow">Choose your attention</p>
+          <h2 id="focus-selection-title">What do you want to work on?</h2>
+        </div>
+
+        <button
+          type="button"
+          class="icon-button modal-close"
+          data-close-modal="focus-selection-modal"
+          aria-label="Close focus selection"
+        >
+          ×
+        </button>
+
+      </div>
+
+      <div class="focus-selection-content">
+
+        <p>
+          You can keep unlimited ideas, but only two active focus spots.
+        </p>
+
+        <div class="focus-selection-options">
+
+          <button
+            type="button"
+            class="focus-selection-option"
+            data-focus-choice="primary"
+          >
+            <span class="focus-selection-icon" aria-hidden="true">★</span>
+            <span>
+              <strong>Set as Primary</strong>
+              <small>Make this your main focus.</small>
+            </span>
+          </button>
+
+          <button
+            type="button"
+            class="focus-selection-option"
+            data-focus-choice="secondary"
+          >
+            <span class="focus-selection-icon" aria-hidden="true">○</span>
+            <span>
+              <strong>Set as Secondary</strong>
+              <small>Keep this as your alternative focus.</small>
+            </span>
+          </button>
+
+          <button
+            type="button"
+            class="focus-selection-option"
+            data-focus-choice="backup"
+          >
+            <span class="focus-selection-icon" aria-hidden="true">🌱</span>
+            <span>
+              <strong>Keep as Backup</strong>
+              <small>Save it without making it active.</small>
+            </span>
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================================
+       FOCUS OVERFLOW MODAL
+  ========================================== -->
+
+  <div
+    class="modal-overlay"
+    id="focus-overflow-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="focus-overflow-title"
+    hidden
+  >
+
+    <div class="modal">
+
+      <div class="modal-header">
+
+        <div>
+          <p class="eyebrow">Make room for a new focus</p>
+          <h2 id="focus-overflow-title">You already have two active ideas</h2>
+        </div>
+
+        <button
+          type="button"
+          class="icon-button modal-close"
+          data-close-modal="focus-overflow-modal"
+          aria-label="Close"
+        >
+          ×
+        </button>
+
+      </div>
+
+      <div class="focus-overflow-content">
+
+        <p>
+          You can replace one of your current focus ideas, or keep this new idea
+          as a backup.
+        </p>
+
+        <div class="focus-overflow-options">
+
+          <button
+            type="button"
+            class="button button-primary"
+            id="replace-primary-button"
+          >
+            Replace Primary
+          </button>
+
+          <button
+            type="button"
+            class="button button-secondary"
+            id="replace-secondary-button"
+          >
+            Replace Secondary
+          </button>
+
+          <button
+            type="button"
+            class="button button-secondary"
+            id="keep-backup-button"
+          >
+            Keep as Backup
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================================
+       REVIEW MODAL
+  ========================================== -->
+
+  <div
+    class="modal-overlay"
+    id="review-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="review-modal-title"
+    hidden
+  >
+
+    <div class="modal modal-large">
+
+      <div class="modal-header">
+
+        <div>
+          <p class="eyebrow">Gentle review</p>
+          <h2 id="review-modal-title">Revisit an idea</h2>
+        </div>
+
+        <button
+          type="button"
+          class="icon-button modal-close"
+          data-close-modal="review-modal"
+          aria-label="Close review"
+        >
+          ×
+        </button>
+
+      </div>
+
+      <div class="review-content">
+
+        <div class="review-idea-card" id="review-idea-card">
+
+          <span class="review-idea-type" id="review-idea-type">
+            Idea
+          </span>
+
+          <h3 id="review-idea-title">
+            No idea selected
+          </h3>
+
+          <p id="review-idea-description">
+            Your review idea will appear here.
+          </p>
+
+        </div>
+
+        <div class="review-actions">
+
+          <button
+            type="button"
+            class="button button-secondary"
+            id="review-keep-button"
+          >
+            Keep
+          </button>
+
+          <button
+            type="button"
+            class="button button-secondary"
+            id="review-develop-button"
+          >
+            Develop
+          </button>
+
+          <button
+            type="button"
+            class="button button-secondary"
+            id="review-pause-button"
+          >
+            Pause
+          </button>
+
+          <button
+            type="button"
+            class="button button-secondary"
+            id="review-archive-button"
+          >
+            Archive
+          </button>
+
+        </div>
+
+        <button
+          type="button"
+          class="text-button"
+          id="review-next-button"
+        >
+          Show another idea →
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================================
+       GLOBAL TOAST NOTIFICATION
+  ========================================== -->
+
+  <div
+    id="toast-container"
+    class="toast-container"
+    aria-live="polite"
+    aria-atomic="true"
+  ></div>
+
+
+  <!-- =========================================
+       APPLICATION SCRIPTS
+  ========================================== -->
+
+  <script src="script.js"></script>
+
+</body>
+</html>
